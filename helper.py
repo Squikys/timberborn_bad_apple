@@ -4,11 +4,9 @@ import numpy as np
 from PIL import Image,ImageOps
 
 def get_frames(file:str,output:str):
-    YOUR_FILE = file
-    OUT_DIR = output
     FPS = 5
 
-    os.makedirs(OUT_DIR, exist_ok=True)
+    os.makedirs(output, exist_ok=True)
 
     probe = ffmpeg.probe(YOUR_FILE)
     video = next(s for s in probe['streams'] if s['codec_type'] == 'video')
@@ -16,7 +14,7 @@ def get_frames(file:str,output:str):
 
     (
         ffmpeg
-        .input(YOUR_FILE)
+        .input(file)
         .filter('fps', fps=FPS)
         .filter('scale', width, -1)
         .output(f'{OUT_DIR}/frame_%05d.jpg', **{'q:v': 2})

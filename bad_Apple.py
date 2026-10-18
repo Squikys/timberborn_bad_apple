@@ -12,7 +12,6 @@ from playsound3 import playsound
 def sound(file):
     playsound(file)
 
-# frames=get_frames("vid.mp4","frames")
 def send_request(val,color,session):
     session.post(f"http://localhost:8080/api/color/HTTP%20Lever%20{val}/{color.lower()}")
 
@@ -44,11 +43,12 @@ def draw(frames, start_x, start_y, end_x, end_y, barrier):
 
 if __name__ == '__main__':
     barrier = Barrier(WORKERS)
+    frames=get_frames("vid.mp4","frames")
 
     time.sleep(5)
     rows_per_worker = HEIGHT // WORKERS
     procs = []
-    pixels = get_pixels("frames", os.listdir("frames"))
+    pixels = get_pixels("frames", frames)
     s=True
     for i in range(WORKERS):
         start_y = i * rows_per_worker
